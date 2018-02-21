@@ -53,8 +53,8 @@ Figure 2.1 Job for PhDs (Data scrapped from indeed.com)
 
 ![](PhD_Gender_Gaps_v2_files/figure-markdown_github/job_location-1.png)
 
-Figure 2.2 PhD degree conferred by states (Data from NSF.com)
--------------------------------------------------------------
+Figure 2.2 PhD degree conferred by states (Data from www.nsf.gov/statistics/)
+-----------------------------------------------------------------------------
 
 ![](PhD_Gender_Gaps_v2_files/figure-markdown_github/degree_by_state-1.png)
 

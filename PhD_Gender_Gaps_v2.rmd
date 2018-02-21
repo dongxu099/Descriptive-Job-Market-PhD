@@ -229,7 +229,7 @@ ggplot() +
 
 ```
 
-## Figure 2.2 PhD degree conferred by states (Data from NSF.com)
+## Figure 2.2 PhD degree conferred by states (Data from www.nsf.gov/statistics/)
 
 ```{r degree_by_state}
 library("xlsx")
