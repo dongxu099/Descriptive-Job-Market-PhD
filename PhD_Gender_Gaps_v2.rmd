@@ -15,7 +15,11 @@ The following report of the program includes two analytical insights, *i.e.*,
 * Does my major matter? Quantifying Gender Gaps in post-PhD job opportunities
 * Does my school location matter? Quantifying Location Privilege for post-PhD career
 
+
+
 # 1. Does my major matter? Quantifying Gender Gaps in Post-PhD Job Opportunities
+
+
 
 ## Figure 1.1 Trend of PhD's degrees conferred to women by programs in the US (1997-2016)
 
