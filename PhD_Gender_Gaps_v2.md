@@ -43,7 +43,7 @@ Each data point represents a PhD major analyzed previously. More job opportuniti
 
 ![](PhD_Gender_Gaps_v2_files/figure-markdown_github/gap-1.png)
 
-2. Does my school location matter? Quantifying Location Privilege for post-PhD career
+2. Does my school location matter? Quantifying Location Privilege for Post-PhD Career
 -------------------------------------------------------------------------------------
 
 Under an assumption that employers prefer to recruit talents in local areas, this analysis tends to find whether the program location will give PhD graduates a privilege for finding a PhD-level job.
@@ -53,8 +53,8 @@ Figure 2.1 Job for PhDs (Data scrapped from indeed.com)
 
 ![](PhD_Gender_Gaps_v2_files/figure-markdown_github/job_location-1.png)
 
-Figure 2.2 PhD degree conferred by states (Data scrapped from indeed.com)
--------------------------------------------------------------------------
+Figure 2.2 PhD degree conferred by states (Data from NSF.com)
+-------------------------------------------------------------
 
 ![](PhD_Gender_Gaps_v2_files/figure-markdown_github/degree_by_state-1.png)
 

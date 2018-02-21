@@ -187,7 +187,7 @@ plot(gap$count, gap$Gen_Diff, ylab = "Amount diff. of degrees conferred to men a
 
 
 
-## 2. Does my school location matter? Quantifying Location Privilege for post-PhD career
+## 2. Does my school location matter? Quantifying Location Privilege for Post-PhD Career
 
 Under an assumption that employers prefer to recruit talents in local areas, this analysis tends to find whether the program location will give PhD graduates a privilege for finding a PhD-level job.
 
@@ -229,7 +229,7 @@ ggplot() +
 
 ```
 
-## Figure 2.2 PhD degree conferred by states (Data scrapped from indeed.com)
+## Figure 2.2 PhD degree conferred by states (Data from NSF.com)
 
 ```{r degree_by_state}
 library("xlsx")
