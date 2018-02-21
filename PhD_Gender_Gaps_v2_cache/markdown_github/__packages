@@ -6,3 +6,7 @@ dplyr
 ggplot2
 bindrcpp
 googleVis
+maps
+rJava
+xlsxjars
+xlsx

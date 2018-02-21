@@ -1,58 +1,44 @@
-Gender Gaps in PhD Graduates
+Job Market Analysis for PhD Graduates
 ================
 Xu Dong
 February 21, 2018
 
+Gender Gaps in PhD Graduates
+----------------------------
+
+<img src="2nd_plot.png" alt="b" width="700" />
+
 PhD jobs by majors
 ------------------
 
-This is an R Markdown document.
+![](PhD_Gender_Gaps_v2_files/figure-markdown_github/job_major-1.png)
 
-    ## Loading required package: xml2
+PhD jobs posted on indeed.com
+-----------------------------
 
-    ## 
-    ## Attaching package: 'dplyr'
+    ## ERROR : Failed to parse text
 
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
+Plot 1
+------
 
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
+![](PhD_Gender_Gaps_v2_files/figure-markdown_github/gap-1.png)
 
-    ## Total job count:  27745
+Plot 2
+------
 
-    ## Scraping jobs in Start Page
-
-    ## Moving to Next 50 jobs
-    ## Moving to Next 50 jobs
-    ## Moving to Next 50 jobs
-
-    ##                    skill count
-    ## 1              Education    70
-    ## 2            Engineering    56
-    ## 3                 Health    51
-    ## 4               Business    37
-    ## 5       Computer Science    26
-    ## 6             Psychology    17
-    ## 7                    Art    17
-    ## 8                English    15
-    ## 9                   Math    11
-    ## 10               History     9
-    ## 11               Physics     8
-    ## 12        Communications     7
-    ## 13            Statistics     7
-    ## 14          Architecture     5
-    ## 15           Mathematics     4
-    ## 16 Public Administration     1
-    ## 17                 Music     1
-    ## 18            Journalism     1
-    ## 19       Social Sciences     1
-    ## 20     Foreign Languages     0
-    ## 21           Agriculture     0
+![](PhD_Gender_Gaps_v2_files/figure-markdown_github/unnamed-chunk-1-1.png)
 
 Job locations for PhDs
 ----------------------
 
-    ## starting httpd help server ... done
+![](PhD_Gender_Gaps_v2_files/figure-markdown_github/job_location-1.png)
+
+PhD degree conferred by states
+------------------------------
+
+![](PhD_Gender_Gaps_v2_files/figure-markdown_github/degree_by_state-1.png)
+
+PhD Job Index by states
+-----------------------
+
+![](PhD_Gender_Gaps_v2_files/figure-markdown_github/index-1.png)

@@ -1,17 +1,39 @@
 ---
-title: "Gender Gaps in PhD Graduates"
+title: "Job Market Analysis for PhD Graduates"
 author: "Xu Dong"
 date: "February 21, 2018"
 output: rmarkdown::github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache=TRUE)
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE, message=FALSE, warning=FALSE)
 ```
+
+## Gender Gaps in PhD Graduates
+
+![b](2nd_plot.png){width=700px}
+
 
 ## PhD jobs by majors
 
-This is an R Markdown document.
+```{r job_major}
+
+library("xlsx")
+
+degree_by_major <- read.xlsx("tb2.xlsx",3)
+degree_by_major = degree_by_major[order(degree_by_major$Gen_Diff),]
+
+par(mar=c(10,10,1,2))
+plot(degree_by_major$Gen_Diff,type="p",   xaxt="n", ylab="Difference of numbers", xlab = "")
+
+axis(1, at=1:22, labels=degree_by_major$Major, las = 2, cex.axis=0.9)
+
+
+```
+
+
+## PhD jobs posted on indeed.com
+
 
 ```{r cars}
 
@@ -30,16 +52,8 @@ BASE_URL <- "https://www.indeed.com"
 
 ADV_URL <- paste0('https://www.indeed.com/jobs?as_and=PhD&as_not=&as_cmp=&jt=all&st=&salary=&sr=directhire&radius=25&fromage=any&limit=50&sort=date&psf=advsrch&as_any=&as_phr=&l=', location)
 
-
 # get the html file from search url
 start_page <- read_html(ADV_URL)
-
-# get the total job count 
-job_count <- unlist(strsplit(start_page %>% 
-                               html_node("#searchCount") %>%
-                               html_text(), split = ' ')) 
-job_count <- as.numeric(str_replace_all(job_count[length(job_count)-1],',',''))
-cat('Total job count: ', job_count)
 
 # Get start page job URLs
 links <- start_page %>%
@@ -51,7 +65,7 @@ page.links <- start_page %>%
   html_nodes(xpath = '//div[contains(@class,"pagination")]//a') %>%
   html_attr('href')
 
-KEYWORDS <- c('Psychology', 'Education', 'Public Administration', 'English', 'Foreign Languages', 'Computer Science','Physics','Business','Agriculture','Architecture','Music','Health','Journalism','Engineering','Mathematics','Communications', 'Statistics', 'History','Math','Social Sciences','Art')
+KEYWORDS <- as.character(degree_by_major$Major)
 
 
 # Clean the raw html - removing commas, tabs, line changers, etc  
@@ -72,7 +86,7 @@ ScrapeJobLinks <- function(res, job.links){
       html <- read_html(job.url)
       text <- html_text(html)
       text <- clean.text(text)
-      df <- data.frame(skill = KEYWORDS, count = ifelse(str_detect(text, KEYWORDS), 1, 0))
+      df <- data.frame(skill = KEYWORDS, count = ifelse(str_detect(text, regex(KEYWORDS, ignore_case = T)), 1, 0))
       res$running$count <- res$running$count + df$count
       res$num_jobs <- res$num_jobs + 1
     }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
@@ -94,15 +108,16 @@ num_jobs <- 0
 # Here is our results object that contains the two stats
 results <- list("running" = running, "num_jobs" = num_jobs)
 
+job_count = 1
 if(job_count != 0){
-  cat('Scraping jobs in Start Page\n')
+  # cat('Scraping jobs in Start Page\n')
   results <- ScrapeJobLinks(results, links)
 }
 
-# for(p in 1:(length(page.links)-1)){
-for(p in 1:3){ 
+for(p in 1:(length(page.links)-1)){
+#for(p in 1:2){ 
   
-  cat('Moving to Next 50 jobs\n')
+  # cat('Moving to Next 50 jobs\n')
   
   # Navigate to next page
   new.page <- read_html(paste0(BASE_URL, page.links[p]))
@@ -116,21 +131,107 @@ for(p in 1:3){
   results <- ScrapeJobLinks(results, links)
 }
 
-print(arrange(results$running, -count))
+# print(arrange(results$running, -count))
+
 ```
+
+## Plot 1
+
+```{r gap}
+names(results$running)[1] = "Major"
+gap = merge(results$running, degree_by_major, by = "Major")
+plot(gap$count, gap$Gen_Diff)
+```
+
+
+## Plot 2
+```{r}
+# running total count as percentage
+results$running$count<-results$running$count/results$num_jobs
+
+# Reformat the Job Title and Location to readable form
+# jt <- str_replace_all(job_title, '\\+|\\\"', ' ')
+# loc <- str_replace_all(location, '\\%2C+|\\+',' ')
+
+# Visualization
+p <- ggplot(results$running, aes(reorder(Major,-count), count)) + geom_bar(stat="identity") + 
+  labs(x = 'Major', y = 'Occurrences (%)', title = "Major occurrences(%) in PhD Job Postings on indeed.com") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+p + scale_y_continuous(labels = scales::percent, breaks = seq(0,1,0.1)) 
+```
+
+
 
 ## Job locations for PhDs
+```{r job_location}
 
-```{r map}
-library(datasets)
-library(googleVis)
-suppressPackageStartupMessages(library(googleVis))
-states <- data.frame(state.name, state.x77)
-GeoStates <- gvisGeoChart(states, "state.name", "Illiteracy",
-                          options=list(region="US", 
-                                       displayMode="regions", 
-                                       resolution="provinces",
-                                       width=600, height=400))
-plot(GeoStates)
+# library(rvest)
+# library(stringr)
+# library(dplyr)
+# library(ggplot2)
+
+state_set = state.abb
+state_count <- data.frame(State = state_set, count = rep(0, length(state_set)))
+
+for (s in state_set) {
+
+  state_ini_page <- read_html(paste0('https://www.indeed.com/jobs?q=PhD&radius=25&sort=date&l=', s))
+  job_count <- unlist(strsplit(state_ini_page %>% 
+                               html_node("#searchCount") %>%
+                               html_text(), split = ' ')) 
+  job_count <- as.numeric(str_replace_all(job_count[length(job_count)-1],',',''))
+  state_count[state_count$State == s, 2] <- job_count
+  # cat('Total job count: ', job_count) 
+}
+
+names(state_count)[1] <- "state"
+state_count$states <- tolower(state.name[match(state_count$state,  state.abb)])
+
+all_states <- map_data("state")
+state_count$region <- state_count$states
+Total <- merge(all_states, state_count, by="region")
+
+
+ggplot() +
+  geom_map(data=Total, aes(x=long, y=lat, group = group, fill=count),colour="white", map = all_states, map_id = Total$states) +
+  scale_fill_continuous(low = "thistle2", high = "darkred", guide="colorbar") +
+  labs(x = "", y = "", title = "PhD Jobs counts in US")
+
+
 ```
+
+## PhD degree conferred by states
+
+```{r degree_by_state}
+library("xlsx")
+
+degree_by_state <- read.xlsx("tb1.xlsx",1)
+state_count$degree_conferred_2014_15 <- degree_by_state$count
+Total <- merge(all_states, state_count, by="region")
+
+
+ggplot() +
+  geom_map(data=Total, aes(x=long, y=lat, group = group, fill=degree_conferred_2014_15),colour="white",              map = all_states, map_id = Total$states) +
+  scale_fill_continuous(low = "thistle2", high = "darkblue", guide="colorbar") +
+  labs(x = "", y = "", title = "PhD degrees conferred by states in 2014-15")
+
+```
+
+## PhD Job Index by states
+```{r index}
+
+state_count$PhD_Job_Index <- state_count$count / state_count$degree_conferred_2014_15
+Total <- merge(all_states, state_count, by="region")
+
+
+ggplot() +
+  geom_map(data=Total, aes(x=long, y=lat, group = group, fill = PhD_Job_Index),colour="white", 
+           map = all_states, map_id = Total$states) +
+  scale_fill_continuous(low = "thistle2", high = "darkgreen", guide="colorbar") +
+  labs(x = "", y = "", title = "PhD Job Index")
+
+```
+
+
+
+
 
