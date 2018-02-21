@@ -17,7 +17,7 @@ The following report of the program includes two analytical insights, *i.e.*,
 
 
 
-# 1. Does my major matter? Quantifying Gender Gaps in Post-PhD Job Opportunities
+## 1. Does my major matter? Quantifying Gender Gaps in Post-PhD Job Opportunities
 
 
 
