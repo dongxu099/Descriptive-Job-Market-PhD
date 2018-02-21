@@ -1,10 +1,15 @@
 Job Market Analysis for PhD Graduates
 ================
-Xu Dong
+Xu Dong, University of Miami
 February 21, 2018
 
-1. Quantifying Gender Gaps in PhD Programs
-==========================================
+The following report of the program includes two analytical insights, *i.e.*,
+
+-   Does my major matter? Quantifying Gender Gaps in post-PhD job opportunities
+-   Does my school location matter? Quantifying Location Privilege for post-PhD career
+
+1. Does my major matter? Quantifying Gender Gaps in Post-PhD Job Opportunities
+==============================================================================
 
 Figure 1.1 Trend of PhD's degrees conferred to women by programs in the US (1997-2016)
 --------------------------------------------------------------------------------------
@@ -20,10 +25,9 @@ Figure 1.2 The difference amount of PhD's degrees conferred to men against women
 
 ![](PhD_Gender_Gaps_v2_files/figure-markdown_github/job_major-1.png)
 
-Analyzing recent Jobs Postings on indeed.com that required/preferred a PhD degree
-=================================================================================
-
     ## ERROR : Failed to parse text
+
+In order to address the concern about the gender disparty in post-PhD job opportunities, I conducted an analysis on the recent jobs opportunities posted online that required/preferred a PhD degree. I web-scrapped and analyzed 27,000+ jobs postings on indeed.com.
 
 Figure 1.3 Major occurrences(%) in PhD Job Postings on indeed.com
 =================================================================
