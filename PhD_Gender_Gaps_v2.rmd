@@ -1,15 +1,15 @@
 ---
 title: "Gender Gaps in PhD Graduates"
 author: "Xu Dong"
-date: "February 19, 2018"
+date: "February 21, 2018"
 output: rmarkdown::github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE)
 ```
 
-## R Markdown
+## PhD jobs by majors
 
 This is an R Markdown document.
 
@@ -99,7 +99,8 @@ if(job_count != 0){
   results <- ScrapeJobLinks(results, links)
 }
 
-for(p in 1:(length(page.links)-1)){
+# for(p in 1:(length(page.links)-1)){
+for(p in 1:3){ 
   
   cat('Moving to Next 50 jobs\n')
   
@@ -116,19 +117,20 @@ for(p in 1:(length(page.links)-1)){
 }
 
 print(arrange(results$running, -count))
-
-
-# running total count as percentage
-results$running$count<-results$running$count/results$num_jobs
-
-# Reformat the Job Title and Location to readable form
-jt <- str_replace_all(job_title, '\\+|\\\"', ' ')
-loc <- str_replace_all(location, '\\%2C+|\\+',' ')
-
-# Visualization
-p <- ggplot(results$running, aes(reorder(skill,-count), count)) + geom_bar(stat="identity") + 
-  labs(x = 'Skill', y = 'Occurrences (%)', title = paste0('Skill occurrences(%) for ', jt, ' in ', loc)) 
-p + scale_y_continuous(labels = scales::percent, breaks = seq(0,1,0.1)) 
 ```
 
+## Job locations for PhDs
+
+```{r map}
+library(datasets)
+library(googleVis)
+suppressPackageStartupMessages(library(googleVis))
+states <- data.frame(state.name, state.x77)
+GeoStates <- gvisGeoChart(states, "state.name", "Illiteracy",
+                          options=list(region="US", 
+                                       displayMode="regions", 
+                                       resolution="provinces",
+                                       width=600, height=400))
+plot(GeoStates)
+```
 
