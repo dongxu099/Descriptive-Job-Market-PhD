@@ -9,12 +9,18 @@ output: rmarkdown::github_document
 knitr::opts_chunk$set(echo = FALSE, cache=TRUE, message=FALSE, warning=FALSE)
 ```
 
-## Gender Gaps in PhD Graduates
+# 1. Quantifying Gender Gaps in PhD Programs
+
+## Figure 1.1 Trend of PhD's degrees conferred to women by programs in the US (1997-2016)
+
+In Figure 1.1, a trend transition point is identified: from 1997 to 2007, the percentage of PhD degrees conferred to women increased across all majors; after 2007, these rates kept steady for 10 years.
 
 ![b](2nd_plot.png){width=700px}
 
 
-## PhD jobs by majors
+## Figure 1.2 The difference amount of PhD's degrees conferred to men against women (By Major)
+
+22 representative majors were presented in Figure 1.2. The gender disparty in PhD majors were identified: women tended to earn PhD degrees in majors such as Psychology, Education, and Biological sciences, while men were likely to earn PhD degrees in majors such as Computer science, Electrical/Electronic Engineering, and Physics.
 
 ```{r job_major}
 
@@ -24,7 +30,7 @@ degree_by_major <- read.xlsx("tb2.xlsx",3)
 degree_by_major = degree_by_major[order(degree_by_major$Gen_Diff),]
 
 par(mar=c(10,10,1,2))
-plot(degree_by_major$Gen_Diff,type="p",   xaxt="n", ylab="Difference of numbers", xlab = "")
+plot(degree_by_major$Gen_Diff,type="p",   xaxt="n", ylab="Amount diff. of degrees conferred to men against women", xlab = "")
 
 axis(1, at=1:22, labels=degree_by_major$Major, las = 2, cex.axis=0.9)
 
@@ -32,7 +38,8 @@ axis(1, at=1:22, labels=degree_by_major$Major, las = 2, cex.axis=0.9)
 ```
 
 
-## PhD jobs posted on indeed.com
+# Analyzing recent Jobs Postings on indeed.com that required/preferred a PhD degree
+
 
 
 ```{r cars}
@@ -135,16 +142,12 @@ for(p in 1:(length(page.links)-1)){
 
 ```
 
-## Plot 1
-
-```{r gap}
-names(results$running)[1] = "Major"
-gap = merge(results$running, degree_by_major, by = "Major")
-plot(gap$count, gap$Gen_Diff)
-```
 
 
-## Plot 2
+# Figure 1.3 Major occurrences(%) in PhD Job Postings on indeed.com
+
+Not suprisingly, Computer and information sciences are among the most demanding majors. Employered also had demands for PhDs in Majors such as Chemistry, Physics, and Maths, due to the high-level knowledge specilizations and requirements, which differentiate the job market for PhDs than for others.
+
 ```{r}
 # running total count as percentage
 results$running$count<-results$running$count/results$num_jobs
@@ -161,7 +164,25 @@ p + scale_y_continuous(labels = scales::percent, breaks = seq(0,1,0.1))
 
 
 
-## Job locations for PhDs
+## Figure 1.4 Gender Gaps of Job Opportunities Induced by PhD programs 
+
+Each data point represents a PhD major analyzed previously. More job opportunities are associated with majors in which men have advantages in the graduation amount. It shows the gender gaps of job opportunities induced by PhD programs.
+
+
+```{r gap}
+names(results$running)[1] = "Major"
+gap = merge(results$running, degree_by_major, by = "Major")
+plot(gap$count, gap$Gen_Diff, ylab = "Amount diff. of degrees conferred to men against women", xlab = "Percentage of job postings by majors")
+```
+
+
+
+
+## 2. Does my school location matter? Quantifying Location Privilege for post-PhD career
+
+Under an assumption that employers prefer to recruit talents in local areas, this analysis tends to find whether the program location will give PhD graduates a privilege for finding a PhD-level job.
+
+## Figure 2.1 Job for PhDs (Data scrapped from indeed.com)
 ```{r job_location}
 
 # library(rvest)
@@ -199,7 +220,7 @@ ggplot() +
 
 ```
 
-## PhD degree conferred by states
+## Figure 2.2 PhD degree conferred by states (Data scrapped from indeed.com)
 
 ```{r degree_by_state}
 library("xlsx")
@@ -216,7 +237,10 @@ ggplot() +
 
 ```
 
-## PhD Job Index by states
+## Figure 2.3 PhD Job Index by states
+
+By simply dividing the job posting amount by for each state in the US, I proposed a measure, called *Location Privilege Index (LPI)*, to quantify the job finding privilege induced by location for post-PhD career. 
+
 ```{r index}
 
 state_count$PhD_Job_Index <- state_count$count / state_count$degree_conferred_2014_15
@@ -227,7 +251,7 @@ ggplot() +
   geom_map(data=Total, aes(x=long, y=lat, group = group, fill = PhD_Job_Index),colour="white", 
            map = all_states, map_id = Total$states) +
   scale_fill_continuous(low = "thistle2", high = "darkgreen", guide="colorbar") +
-  labs(x = "", y = "", title = "PhD Job Index")
+  labs(x = "", y = "", title = "Index value")
 
 ```
 
