@@ -11,27 +11,28 @@ knitr::opts_chunk$set(echo = FALSE, cache=TRUE, message=FALSE, warning=FALSE)
 ```
 
 
-The following report of the program includes two analytical insights, *i.e.*, 
+The following report includes three analytical insights from investigating the job market for PhD graduates in the US, *i.e.*, 
 
-* Does my major matter? Quantifying Gender Gaps in post-PhD job opportunities
-* Does my school location matter? Quantifying Location Privilege for post-PhD career
+* Does gender matter?
+* Does my major matter?
+* Does my school location matter? 
+
+# 1. Does gender matter? 
+
+To answer this question, I scrapped the data ssing R package "rvest" from multiple tables on the National Center for Education Statistics website (https://nces.ed.gov/programs/digest/).
+
+##### Figure 1. Percentage of PhD's degrees conferred to women in the US (1950-2017)
+
+```{r fig1}
+library("ggplot2")
+library(xlsx)
+table = read.xlsx("C:/Users/Xu Dong/Desktop/Jobs/The data Incubator/2018 Spring Session/Finalist/PhD_Gender_Gaps/raw.xlsx",2)
+ggplot(table, aes(x = Year, y = Percentage, colour = Program)) + geom_point(size=0.9)+
+  geom_smooth(method = 'loess', se = FALSE)
+```
 
 
-
-## 1. Does my major matter? Quantifying Gender Gaps in Post-PhD Job Opportunities
-
-
-
-## Figure 1.1 Trend of PhD's degrees conferred to women by programs in the US (1997-2016)
-
-In Figure 1.1, a trend transition point is identified: from 1997 to 2007, the percentage of PhD degrees conferred to women increased across all majors; after 2007, these rates kept steady for 10 years.
-
-![b](2nd_plot.png){width=700px}
-
-
-## Figure 1.2 The difference amount of PhD's degrees conferred to men against women (By Major)
-
-22 representative majors were presented in Figure 1.2. The gender disparty in PhD majors were identified: women tended to earn PhD degrees in majors such as Psychology, Education, and Biological sciences, while men were likely to earn PhD degrees in majors such as Computer science, Electrical/Electronic Engineering, and Physics.
+##### Figure 2. The difference amount of PhD's degrees conferred to men against women (Year 2017)
 
 ```{r job_major}
 
@@ -41,7 +42,7 @@ degree_by_major <- read.xlsx("tb2.xlsx",3)
 degree_by_major = degree_by_major[order(degree_by_major$Gen_Diff),]
 
 par(mar=c(10,10,1,2))
-plot(degree_by_major$Gen_Diff,type="p",   xaxt="n", ylab="Amount diff. of degrees conferred to men against women", xlab = "")
+plot(degree_by_major$Gen_Diff,type="p",   xaxt="n", ylab=" Differences of amount", xlab = "")
 
 axis(1, at=1:22, labels=degree_by_major$Major, las = 2, cex.axis=0.9)
 
@@ -151,12 +152,15 @@ for(p in 1:(length(page.links)-1)){
 ```
 
 
-In order to address the concern about the gender disparty in post-PhD job opportunities, I conducted an analysis on the recent jobs opportunities posted online that required/preferred a PhD degree. I web-scrapped and analyzed 27,000+ jobs postings on indeed.com.
+#2. Does my major matter?
+
+In order to address the concern about the gender disparty in post-PhD job opportunities, I conducted an analysis on the recent jobs opportunities posted online that required/preferred a PhD degree. I scrapped and analyzed 27,000+ jobs postings on indeed.com (https://indeed.com/jobs?q=PhD).
+Note here that the jobs posts in indeed.com have dupulicates.I used text mining techniques to compare the similarity of the bag of words between any given pair of job posts. If their similarity are over 95%, I took them as the same post.
 
 
-# Figure 1.3 Major occurrences(%) in PhD Job Postings on indeed.com
+#### Figure 3. Major occurrences(%) in PhD Job Postings on indeed.com
 
-Not suprisingly, Computer and information sciences are among the most demanding majors. Employered also had demands for PhDs in Majors such as Chemistry, Physics, and Maths, due to the high-level knowledge specilizations and requirements, which differentiate the job market for PhDs than for others.
+
 
 ```{r}
 # running total count as percentage
@@ -172,12 +176,7 @@ p <- ggplot(results$running, aes(reorder(Major,-count), count)) + geom_bar(stat=
 p + scale_y_continuous(labels = scales::percent, breaks = seq(0,1,0.1)) 
 ```
 
-
-
-## Figure 1.4 Gender Gaps of Job Opportunities Induced by PhD programs 
-
-Each data point represents a PhD major analyzed previously. More job opportunities are associated with majors in which men have advantages in the graduation amount. It shows the gender gaps of job opportunities induced by PhD programs.
-
+#### Figure 4. Gender Gaps of Job Opportunities Induced by PhD programs 
 
 ```{r gap}
 names(results$running)[1] = "Major"
@@ -185,14 +184,11 @@ gap = merge(results$running, degree_by_major, by = "Major")
 plot(gap$count, gap$Gen_Diff, ylab = "Amount diff. of degrees conferred to men against women", xlab = "Percentage of job postings by majors")
 ```
 
+# 3. Does my school location matter? 
 
+Assuming that employers prefer to recruit talents in local areas, this analysis tends to find whether the program location will give PhD graduates a privilege for finding a job. Data are scrapped from National Science Fundation website (www.nsf.gov/statistics/) and indeed.com (https://indeed.com/jobs?q=PhD) on Feb 20th, 2018.
 
-
-## 2. Does my school location matter? Quantifying Location Privilege for Post-PhD Career
-
-Under an assumption that employers prefer to recruit talents in local areas, this analysis tends to find whether the program location will give PhD graduates a privilege for finding a PhD-level job.
-
-## Figure 2.1 Job for PhDs (Data scrapped from indeed.com)
+#### Figure 5. Number of Job for PhDs by states (Data scrapped from indeed.com)
 ```{r job_location}
 
 # library(rvest)
@@ -230,7 +226,7 @@ ggplot() +
 
 ```
 
-## Figure 2.2 PhD degree conferred by states (Data from www.nsf.gov/statistics/)
+#### Figure 6. Number of PhD degree conferred by states 
 
 ```{r degree_by_state}
 library("xlsx")
@@ -243,13 +239,13 @@ Total <- merge(all_states, state_count, by="region")
 ggplot() +
   geom_map(data=Total, aes(x=long, y=lat, group = group, fill=degree_conferred_2014_15),colour="white",              map = all_states, map_id = Total$states) +
   scale_fill_continuous(low = "thistle2", high = "darkblue", guide="colorbar") +
-  labs(x = "", y = "", title = "PhD degrees conferred by states in 2014-15")
+  labs(x = "", y = "", title = "Number of PhD degrees conferred by states in 2016-17")+ labs(fill = "Amount")
 
 ```
 
-## Figure 2.3 PhD Job Index by states
+#### Figure 7.  PhD Job Index by states
 
-By simply dividing the job posting amount by for each state in the US, I proposed a measure, called *Location Privilege Index (LPI)*, to quantify the job finding privilege induced by location for post-PhD career. 
+By simply dividing the job posting amount by the number of PhD degree conferred for each state in the US, I proposed a measure, called *Location Privilege Index (LPI)*, to quantify the job finding privilege induced by location for post-PhD career. 
 
 ```{r index}
 
@@ -261,7 +257,7 @@ ggplot() +
   geom_map(data=Total, aes(x=long, y=lat, group = group, fill = PhD_Job_Index),colour="white", 
            map = all_states, map_id = Total$states) +
   scale_fill_continuous(low = "thistle2", high = "darkgreen", guide="colorbar") +
-  labs(x = "", y = "", title = "Index value")
+  labs(x = "", y = "", title = "Index value")+ labs(fill = "LPI")
 
 ```
 
