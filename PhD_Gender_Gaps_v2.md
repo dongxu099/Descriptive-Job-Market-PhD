@@ -1,7 +1,7 @@
 Job Market Analysis for PhD Graduates
 ================
 Xu Dong, University of Miami
-May 16, 2018
+May 15, 2018
 
 The following report of the program includes two analytical insights, *i.e.*,
 
