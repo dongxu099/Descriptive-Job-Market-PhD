@@ -1,1 +1,1 @@
-[{"allow_restart":false,"alt_buffer":false,"autoclose":1,"buffered_output":"[master da7ec5a] Remove 3 files\n 3 files changed, 830 deletions(-)\n delete mode 100644 gender_degree_data.tsv\n delete mode 100644 raw.xlsx\n delete mode 100644 tb2.xlsx\n","caption":"Git Commit","channel_id":"","channel_mode":0,"child_procs":false,"cols":80,"cwd":"","exit_code":0,"handle":"686D8B8A","interaction_mode":0,"max_output_lines":500,"restarted":false,"rows":25,"shell_type":0,"show_on_output":false,"terminal_sequence":0,"title":"","track_env":false,"zombie":false}]
+[]
