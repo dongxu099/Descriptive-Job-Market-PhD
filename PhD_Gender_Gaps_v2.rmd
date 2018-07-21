@@ -1,7 +1,7 @@
 ---
 title: "Job Market Analysis for PhD Graduates"
 author: "Xu Dong, University of Miami"
-Organization: "University of Miami"
+organization: "University of Miami"
 date: "July 23, 2018"
 output: rmarkdown::github_document
 ---
