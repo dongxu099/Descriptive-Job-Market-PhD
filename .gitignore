@@ -1,12 +1,9 @@
 # RStudio files
 .Rproj.user
-
 # Session Data files
 .RData
-
 # History files
 .Rhistory
-
 # Specific folder(s)
 PhD_Gender_Gaps_v2_cache
 PhD_Job_Market_cache
